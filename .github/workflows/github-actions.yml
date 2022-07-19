@@ -32,7 +32,7 @@ jobs:
         name: Run container
         run: |
           docker container run --rm -p 8000:8000 --network host simple-warehouse &
-          curl simple-warehouse:8000/
+          curl localhost:8000/
           
 
   login-and-push:
