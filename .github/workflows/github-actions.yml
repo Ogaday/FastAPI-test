@@ -25,14 +25,16 @@ jobs:
       # run: pip install -r requirements.txt
       # - name: Set up Docker Buildx
       #   uses: docker/setup-buildx-action@v2
+      - name: Create network
+        run: docker network create mynet
       -
         name: Build image
         run: DOCKER_BUILDKIT=0  docker build -t simple-warehouse .
       -
         name: Run container
         run: |
-          docker container run --rm -p 8000:8000 --network host simple-warehouse &
-          curl localhost:8000/
+          docker container run --rm -p 8000:8000 --network mynet --name simple simple-warehouse &
+          docker run --rm --network mynet curlimages/curl:latest http://simple:8000/
           
 
   login-and-push:
